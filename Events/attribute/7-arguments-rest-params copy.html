@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button
+      onclick="handler('Hello, username!', { options: true }, 28, document, Array.from)"
+    >
+      click me!
+    </button>
+
+    <script>
+      const handler = (...args) => {
+        for (let arg of args) {
+          console.log(arg);
+        }
+      };
+    </script>
+  </body>
+</html>

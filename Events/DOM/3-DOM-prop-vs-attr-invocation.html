@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button id="button" onclick="fooBar()">click me!</button>
+
+    <script>
+      const fooBar = () => {
+        console.log('fooBar');
+      };
+    </script>
+
+    <!-- WRONG EXAMPLE -->
+    <!-- <button id="button">click me!</button>
+    <script>
+      const fooBar = () => {
+        console.log('fooBar');
+      };
+
+      button.onclick = fooBar();
+    </script> -->
+  </body>
+</html>

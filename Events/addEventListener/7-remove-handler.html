@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button id="addButton">add mousemove handler</button>
+    <button id="removeButton">remove mousemove handler</button>
+
+    <div id="x">0</div>
+    <div id="y">0</div>
+
+    <script>
+      const mouseMoveHandler = (event) => {
+        x.innerText = event.clientX;
+        y.innerText = event.clientY;
+      };
+
+      addButton.addEventListener('click', () => {
+        document.addEventListener('mousemove', mouseMoveHandler);
+      });
+
+      removeButton.addEventListener('click', () => {
+        document.removeEventListener('mousemove', mouseMoveHandler);
+      });
+    </script>
+  </body>
+</html>

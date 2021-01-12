@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+    <style>
+      [data-custom-textarea] {
+        margin: 30px;
+        border: 1px #ccc solid;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #ccc;
+      }
+
+      pre {
+        margin: 0;
+        padding: 0.75em;
+        font-size: 2rem;
+      }
+
+      pre.active::after {
+        content: '|';
+        color: blue;
+        animation: pulse 0.8s infinite;
+        margin-left: -6px;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div data-custom-textarea></div>
+
+    <script>
+      ((document) => {
+        const textArea = document.querySelector('[data-custom-textarea]');
+
+        const addParagraph = () => {
+          textArea.lastElementChild &&
+            textArea.lastElementChild.classList.remove('active');
+
+          const newParagraph = document.createElement('pre');
+          newParagraph.classList.add('active');
+          textArea.append(newParagraph);
+        };
+
+        const removeSymbol = () => {
+          const p = textArea.lastElementChild;
+
+          if (p.innerText.length === 0 && textArea.children.length > 1) {
+            p.remove();
+            textArea.lastElementChild.classList.add('active');
+            return;
+          }
+
+          p.innerText = p.innerText.slice(0, -1);
+        };
+
+        const addSymbol = (symbol) => {
+          textArea.lastElementChild.innerText += symbol;
+        };
+
+        const produceSaveEvent = () => {
+          const saveEvent = new CustomEvent('customTextAreaSave', {
+            detail: {
+              text: textArea.innerText,
+            },
+          });
+          document.dispatchEvent(saveEvent);
+        };
+
+        const codesHandlersMap = {
+          Enter: addParagraph,
+          Backspace: removeSymbol,
+        };
+
+        const keyDownHandler = (event) => {
+          if (event.ctrlKey && event.shiftKey && event.keyCode === 83) {
+            produceSaveEvent();
+            return;
+          }
+
+          const codeHandler =
+            event.key.length === 1 ? addSymbol : codesHandlersMap[event.code];
+
+          if (typeof codeHandler === 'function') {
+            codeHandler(event.key);
+          }
+        };
+
+        addParagraph();
+        document.addEventListener('keydown', keyDownHandler);
+      })(window.document);
+    </script>
+
+    <script>
+      document.addEventListener('customTextAreaSave', (event) => {
+        const element = document.createElement('pre');
+        element.innerHTML = event.detail.text;
+        document.body.append(element);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button id="button">click me!</button>
+    <h1 id="heading">This heading has click handler</h1>
+
+    <script>
+      function clickHandler() {
+        console.log(this);
+      }
+
+      button.onclick = clickHandler;
+      heading.onclick = clickHandler;
+    </script>
+  </body>
+</html>

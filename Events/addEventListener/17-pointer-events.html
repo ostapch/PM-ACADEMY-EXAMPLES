@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+    <style>
+      div {
+        width: 100%;
+        height: 600px;
+        cursor: pointer;
+        background-color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="element"></div>
+
+    <script>
+      const handler = (event) => console.log(event);
+
+      element.addEventListener('mousemove', handler);
+      element.addEventListener('touchmove', handler);
+      // element.addEventListener('pointermove', handler);
+    </script>
+  </body>
+</html>

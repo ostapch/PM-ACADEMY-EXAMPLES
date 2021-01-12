@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+    <style>
+      p {
+        margin: 25px;
+        padding: 25px;
+        border: 3px solid burlywood;
+        display: block;
+      }
+      a {
+        font-weight: bold;
+      }
+      [data-popover] {
+        position: relative;
+      }
+      .popover {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        background: teal;
+        border: 2px solid indigo;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: white;
+        min-width: 100%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="newsline">
+      <p>
+        Lorem ipsum dolor sit amet consectetur
+        <a href="#" data-popover="Foo bar">sunt</a> adipisicing elit. Quo vero
+        et, accusantium pariatur quibusdam nihil ipsum inventore aperiam quos
+        dignissimos perferendis. Corrupti asperiores sapiente quibusdam,
+        adipisci tenetur incidunt porro sit ab. Nobis, veritatis. Nesciunt
+        totam, repellat placeat quibusdam sequi,
+        <a href="#" data-popover="Bar Foo">nemo</a> tempora omnis aliquid itaque
+        repellendus inventore, quo veniam. Minus sequi nisi porro, illum veniam
+        ut in vel alias id facilis sit eaque!
+        <a href="#" data-popover="Bazzzz">Dicta</a>, itaque dignissimos!
+        Accusamus exercitationem iusto enim. Obcaecati, illo.
+      </p>
+    </div>
+
+    <script>
+      const anchors = document.querySelectorAll('[data-popover]');
+
+      const mouseOverHandler = (event) => {
+        const popover = document.createElement('div');
+        popover.innerText = event.target.dataset.popover;
+        popover.classList.add('popover');
+        event.target.append(popover);
+      };
+
+      const mouseOutHandler = (event) => {
+        event.target.querySelector('.popover').remove();
+      };
+
+      for (let a of anchors) {
+        a.addEventListener('mouseover', mouseOverHandler);
+        a.addEventListener('mouseout', mouseOutHandler);
+      }
+    </script>
+
+    <!-- <button id="load-more">LOAD MORE...</button> -->
+
+    <!-- <script>
+      const button = document.querySelector('#load-more');
+      const newsline = document.querySelector('#newsline');
+
+      button.addEventListener('click', () => {
+        const p = document.querySelector('p').cloneNode(true);
+        newsline.append(p);
+      });
+    </script> -->
+  </body>
+</html>

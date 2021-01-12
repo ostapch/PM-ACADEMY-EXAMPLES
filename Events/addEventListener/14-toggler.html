@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+    <style>
+      p {
+        margin: 25px;
+        padding: 25px;
+        border: 3px solid burlywood;
+      }
+    </style>
+  </head>
+  <body>
+    <button data-toggle="collapse" data-target="#foo">Toggle foo</button>
+    <p id="foo">Foo bar baz</p>
+
+    <script>
+      document.addEventListener('click', (event) => {
+        if (!event.target.dataset.toggle) {
+          return;
+        }
+
+        const toggleTarget = document.querySelector(
+          event.target.dataset.target
+        );
+
+        toggleTarget.hidden = !toggleTarget.hidden;
+      });
+    </script>
+  </body>
+</html>

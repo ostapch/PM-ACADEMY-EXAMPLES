@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button id="button">click me!</button>
+
+    <script>
+      const eventType = 'click';
+
+      const clickHandler = () => console.log('Button was clicked');
+
+      const capture = true;
+
+      button.addEventListener(eventType, clickHandler, capture);
+    </script>
+  </body>
+</html>

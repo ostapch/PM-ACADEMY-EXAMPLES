@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button id="button">click me!</button>
+
+    <script>
+      const eventType = 'click';
+
+      const clickHandler = () => console.log('Button was clicked');
+
+      button.addEventListener(eventType, clickHandler);
+    </script>
+  </body>
+</html>

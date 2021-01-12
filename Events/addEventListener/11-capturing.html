@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+    <style>
+      div,
+      p,
+      span {
+        margin: 25px;
+        padding: 25px;
+        border: 3px solid burlywood;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      DIV
+      <p>
+        P
+        <span>
+          SPAN
+          <button>CLICK ME!</button>
+        </span>
+      </p>
+    </div>
+
+    <script>
+      const div = document.querySelector('div');
+      const p = document.querySelector('p');
+      const span = document.querySelector('span');
+      const button = document.querySelector('button');
+
+      const clickHandler = (event) => {
+        console.log(`Click on ${event.currentTarget.tagName}`);
+      };
+
+      div.addEventListener('click', clickHandler, true);
+      p.addEventListener('click', clickHandler, true);
+      span.addEventListener('click', clickHandler, true);
+      button.addEventListener('click', clickHandler, true);
+    </script>
+  </body>
+</html>

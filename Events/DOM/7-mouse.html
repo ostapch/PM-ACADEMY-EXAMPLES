@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <button id="button">mouse is not over me</button>
+
+    <script>
+      const mouseOverHandler = (event) => {
+        event.target.innerHTML = 'mouse is over me';
+      };
+
+      const mouseOutHandler = (event) => {
+        event.target.innerHTML = 'mouse is not over me';
+      };
+
+      button.onmouseover = mouseOverHandler;
+      button.onmouseout = mouseOutHandler;
+    </script>
+  </body>
+</html>
