@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>File system</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      .container {
+        display: flex;
+      }
+      .file {
+        padding: 10px;
+        margin: 10px 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px #ddd;
+        width: 130px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+      }
+      .context-menu {
+        list-style: none;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px #ccc;
+        background: #fff;
+        padding: 5px 0;
+        margin: 0;
+        overflow: hidden;
+        position: absolute;
+      }
+      li {
+        padding: 5px 15px;
+      }
+      li:hover {
+        background-color: #ccc;
+        cursor: pointer;
+      }
+      .selection {
+        position: absolute;
+        background: #ccc;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="file">photo-001.jpg</div>
+      <div class="file">photo-002.jpg</div>
+      <div class="file">funny-video.mkv</div>
+      <div class="file">crazy frog.mp3</div>
+      <div class="file">test.json</div>
+      <div class="file">index.html</div>
+      <div class="file">hello-world.js</div>
+    </div>
+
+    <script>
+      (() => {
+        let menu;
+        let menuTarget;
+        let selectionRect;
+        let selectionRectStartPoint;
+
+        const container = document.querySelector('.container');
+
+        const getNewFileName = (defaultName) =>
+          prompt('Enter file name', defaultName);
+
+        const createContextMenu = (options) => {
+          menu = document.createElement('ul');
+          menu.classList.add('context-menu');
+          menu.style.left = `${options.x}px`;
+          menu.style.top = `${options.y}px`;
+          if (options.target) {
+            menu.innerHTML = `
+            <li data-action="rename">Rename</li>
+            <li data-action="delete">Delete</li>
+          `;
+          } else {
+            menu.innerHTML = `
+            <li data-action="create">Create</li>
+          `;
+          }
+          document.body.append(menu);
+        };
+
+        const removeContextMenu = () => {
+          menu &&  menu.remove();
+        };
+
+        const contextMenuActions = {
+          rename: () => {
+            const newFileName = getNewFileName(menuTarget.innerText);
+            if (newFileName) {
+              menuTarget.innerText = newFileName;
+            }
+          },
+          delete: () => {
+            menuTarget.remove();
+          },
+          create: () => {
+            const newFileName = getNewFileName();
+            if (!newFileName) {
+              return;
+            }
+
+            const file = document.createElement('div');
+            file.classList.add('file');
+            file.innerText = newFileName;
+            container.append(file);
+          },
+        };
+
+        const createSelectionRect = ({ clientX, clientY }) => {
+          selectionRectStartPoint = { clientX, clientY };
+          selectionRect = document.createElement('div');
+          selectionRect.classList.add('selection');
+          document.body.append(selectionRect);
+        };
+
+        const deleteSelectionRect = () => {
+          selectionRectStartPoint = null;
+          selectionRect.remove();
+        };
+
+        const updateSelectionRectPosition = ({ clientX, clientY }) => {
+          selectionRect.style.left = `${Math.min(clientX, selectionRectStartPoint.clientX)}px`;
+          selectionRect.style.right = `${window.innerWidth - Math.max(clientX, selectionRectStartPoint.clientX)}px`;
+          selectionRect.style.top = `${Math.min(clientY, selectionRectStartPoint.clientY)}px`;
+          selectionRect.style.bottom = `${window.innerHeight - Math.max(clientY, selectionRectStartPoint.clientY)}px`;
+        }
+
+        const mouseMoveHandler = (event) => {
+          updateSelectionRectPosition(event);
+        }
+
+        document.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+          removeContextMenu();
+
+          menuTarget = event.target;
+
+          createContextMenu({
+            target: event.target.classList.contains('file'),
+            x: event.clientX,
+            y: event.clientY,
+          });
+        });
+
+        document.addEventListener('click', (event) => {
+          removeContextMenu();
+          if (event.target.dataset.action) {
+            contextMenuActions[event.target.dataset.action]();
+          }
+        });
+
+        document.addEventListener('mousedown', (event) => {
+          createSelectionRect(event);
+          document.addEventListener('mousemove', mouseMoveHandler);
+        });
+
+        document.addEventListener('mouseup', () => {
+          deleteSelectionRect();
+          document.removeEventListener('mousemove', mouseMoveHandler);
+        });
+      })();
+    </script>
+  </body>
+</html>
